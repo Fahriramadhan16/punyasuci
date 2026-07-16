@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Untuk Kamu — Now Playing</title>
+<meta name="description" content="Sebuah playlist kecil, dibuat khusus untuk kamu.">
+<meta name="theme-color" content="#0b0b0d">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Latar layar penuh: warna diambil otomatis dari foto sampul, memudar ke hitam -->
+  <div class="ambient" id="ambient" aria-hidden="true">
+    <div class="ambient__glow" id="ambientGlow"></div>
+    <div class="ambient__grain"></div>
+  </div>
+
+  <main class="stage">
+
+    <!-- LAYAR UTAMA "NOW PLAYING" -->
+    <div class="now-playing" id="nowPlaying">
+
+      <header class="topbar">
+        <button class="chip-btn" id="collapseBtn" type="button" aria-label="Ciutkan ke mini player" aria-expanded="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+
+        <div class="topbar__eyebrow">
+          <span class="eq-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>Diputar dari hati ke hati</span>
+        </div>
+
+        <div class="menu">
+          <button class="chip-btn" id="menuBtn" type="button" aria-label="Menu lainnya" aria-haspopup="true" aria-expanded="false">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
+          </button>
+          <div class="menu__pop" id="menuPop" role="menu">Dibuat dengan perasaan, khusus untuk kamu </div>
+        </div>
+      </header>
+
+      <!-- Foto sampul: kotak tumpul, bukan lingkaran -->
+      <div class="art" id="art">
+        <img class="art__img" id="albumPhoto" src="assets/cover.jpg" alt="Foto sampul lagu">
+        <div class="art__sheen" aria-hidden="true"></div>
+      </div>
+
+      <!-- Judul + tombol suka -->
+      <div class="meta">
+        <div class="meta__text">
+          <h1 class="meta__title" id="trackTitle">Untuk Uciiiiii</h1>
+          <p class="meta__artist" id="trackArtist">Ganti dengan nama kamu</p>
+        </div>
+        <button class="like-btn" id="likeBtn" type="button" aria-pressed="false" aria-label="Tambahkan ke Disukai">
+          <svg id="heartIcon" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20.5s-7.6-4.6-10.2-9.4C.4 8.1 1.6 4.7 4.8 3.8c2.1-.6 4.2.3 5.5 2.1l1.7 2.3 1.7-2.3c1.3-1.8 3.4-2.7 5.5-2.1 3.2.9 4.4 4.3 3 7.3-2.6 4.8-10.2 9.4-10.2 9.4z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Progress -->
+      <div class="progress">
+        <input class="progress__range" id="progressRange" type="range" min="0" max="100" value="0" step="0.1" aria-label="Posisi lagu">
+        <div class="progress__times">
+          <span id="currentTime">0:00</span>
+          <span id="durationTime">0:00</span>
+        </div>
+      </div>
+
+      <!-- Kontrol utama -->
+      <div class="controls">
+        <button class="tool-btn" id="shuffleBtn" type="button" aria-label="Acak lagu" aria-pressed="false">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h3.2c1.2 0 2.3.6 2.9 1.6l6 8.8c.6 1 1.7 1.6 2.9 1.6H21M15 4l4 4-4 4"/><path d="M3 18h3.2c1.2 0 2.3-.6 2.9-1.6l.6-.9"/><path d="M12.7 8.5l.4-.9c.6-1 1.7-1.6 2.9-1.6H21M15 20l4-4-4-4"/></svg>
+        </button>
+
+        <button class="icon-btn ctrl-btn" id="prevBtn" type="button" aria-label="Lagu sebelumnya">
+          <svg viewBox="0 0 24 24" width="21" height="21" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14l-11-7z"/></svg>
+        </button>
+
+        <button class="play-btn" id="playBtn" type="button" aria-label="Putar">
+          <svg id="playIcon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="pauseIcon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" style="display:none"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+        </button>
+
+        <button class="icon-btn ctrl-btn" id="nextBtn" type="button" aria-label="Lagu berikutnya">
+          <svg viewBox="0 0 24 24" width="21" height="21" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg>
+        </button>
+
+        <button class="tool-btn" id="repeatBtn" type="button" aria-label="Ulangi lagu" aria-pressed="false">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+          <span class="tool-btn__one" aria-hidden="true">1</span>
+        </button>
+      </div>
+
+      <!-- Volume -->
+      <div class="volume">
+        <button class="icon-btn volume__icon-btn" id="muteBtn" type="button" aria-label="Bisukan / suarakan">
+          <svg id="volIcon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+            <path d="M4 9v6h4l5 5V4L8 9H4z"/>
+            <path id="volWave" d="M16.5 8.5a5 5 0 010 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <input class="volume__range" id="volumeRange" type="range" min="0" max="100" value="70" aria-label="Volume">
+      </div>
+
+      <!-- Titik indikator daftar lagu (muncul otomatis kalau lagu > 1) -->
+      <div class="dots" id="dots" role="tablist" aria-label="Pilih lagu"></div>
+
+      <!-- Baris ikon bawah -->
+      <div class="utility">
+      
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="10" rx="2"/><path d="M20 8.5v7M22.3 10v4"/></svg>
+        </button>
+        <button class="chip-btn chip-btn--note" id="noteBtn" type="button" aria-label="Baca pesan untukmu" aria-haspopup="dialog" aria-expanded="false">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <span class="chip-btn__dot" id="noteDot" aria-hidden="true"></span>
+        </button>
+        <button class="chip-btn" id="shareBtn" type="button" aria-label="Bagikan">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.4 13.4l7.1 4.1M15.5 6.5l-7.1 4.1"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- MINI PLAYER: muncul saat layar utama diciutkan -->
+    <div class="mini" id="miniPlayer" role="button" tabindex="0" aria-label="Perbesar pemutar">
+      <div class="mini__progress" id="miniProgress"></div>
+      <span class="mini__art"><img id="miniPhoto" src="assets/cover.jpg" alt=""></span>
+      <span class="mini__text">
+        <span class="mini__title" id="miniTitle">Untuk Uciiiiii</span>
+        <span class="mini__artist" id="miniArtist">Ganti dengan nama kamu</span>
+      </span>
+      <span class="eq-bars mini__eq" id="miniEq" aria-hidden="true"><i></i><i></i><i></i></span>
+      <button class="mini__play" id="miniPlayBtn" type="button" aria-label="Putar / jeda">
+        <svg id="miniPlayIcon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="miniPauseIcon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="display:none"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+      </button>
+    </div>
+
+    <!-- Panel pesan — menggantikan tampilan lirik Spotify dengan pesan asli -->
+    <div class="note-panel" id="notePanel" role="dialog" aria-modal="true" aria-label="Pesan untukmu" hidden>
+      <div class="note-panel__inner">
+        <button class="chip-btn note-panel__close" id="noteCloseBtn" type="button" aria-label="Tutup pesan">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <span class="note-panel__label">Bukan lirik — ini pesan asli</span>
+        <p class="note-panel__text" id="noteText">Tulis pesan kamu di sini...</p>
+        <p class="note-panel__sign" id="noteSign">— dari aku, untuk kamu</p>
+      </div>
+    </div>
+
+    <!-- Toast kecil untuk konfirmasi aksi -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  </main>
+
+  <!-- Canvas tersembunyi untuk membaca warna dominan dari foto -->
+  <canvas id="colorCanvas" width="20" height="20" style="display:none" aria-hidden="true"></canvas>
+
+  <audio id="audio" preload="metadata"></audio>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
